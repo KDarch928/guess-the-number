@@ -12,11 +12,14 @@
  */
 
 // Variable to store the list of guesses 
+var guesses;
 
-// Variable for store the correct random number 
+// Variable for store the correct random number
+var correctNumber;
 
 
 window.onload = function() {
+    initGame();
     document.getElementById("number-submit").addEventListener("click", playGame);
     document.getElementById("restart-game").addEventListener("click", initGame)
 }
@@ -26,6 +29,18 @@ window.onload = function() {
  */
 function playGame(){
   // *CODE GOES BELOW HERE *
+ 
+  var guessedNum = document.getElementById("number-guess").value;
+
+  //checking to see if the input field is not empty
+  if(guessedNum !== null && guessedNum !== "") {
+    displayResult(guessedNum);
+    saveGuessHistory(guessedNum);
+    displayHistory();
+  } else {
+    alert("You must enter a number");
+  }
+
 }
 
 /**
@@ -33,6 +48,15 @@ function playGame(){
  * HINT: Use if, else if, else statement 
  */
 // *CODE GOES BELOW HERE *
+function displayResult(guess) {
+  if (guess == correctNumber) {
+    showYouWon();
+  } else if (guess > correctNumber) {
+    showNumberAbove()
+  } else {
+    showNumberBelow();
+  }
+}
 
 
 
@@ -42,6 +66,10 @@ function playGame(){
  */
 function initGame(){
   // *CODE GOES BELOW HERE *
+  guesses = [];
+  correctNumber = getRandomNumber();
+  resetResultContent();
+  
 }
 
 /**
@@ -49,6 +77,7 @@ function initGame(){
  */
 function resetResultContent(){
   document.getElementById("result").innerHTML = "";
+  document.getElementById("history").innerHTML = "";
 }
 
 /**
@@ -57,6 +86,7 @@ function resetResultContent(){
  */
 function getRandomNumber(){
   // *CODE GOES BELOW HERE *
+  return Math.round((Math.random() * 100) + 1);
 }
 
 /**
@@ -66,6 +96,7 @@ function getRandomNumber(){
  */
 function saveGuessHistory(guess) {
   // *CODE GOES BELOW HERE *
+  guesses.push(guess);
 }
 
 /**
@@ -80,6 +111,11 @@ function displayHistory() {
   let index; // TODO
   let list = "<ul class='list-group'>";
   // *CODE GOES BELOW HERE *
+  index = guesses.length - 1;
+  while (index >= 0) {
+    list += `<li class='list-group-item'> You guessed ${guesses[index]}</li>`;
+    index--;
+  }
   list += '</ul>'
   document.getElementById("history").innerHTML = list;
 }
@@ -113,6 +149,8 @@ function showYouWon(){
    */
   // *CODE GOES BELOW HERE *
 
+  dialog = getDialog("won", text);
+
   document.getElementById("result").innerHTML = dialog;
 }
 
@@ -124,6 +162,7 @@ function showNumberAbove(){
    * HINT: Use the 'warning' and text parameters 
    */
   // *CODE GOES BELOW HERE *
+  dialog = getDialog("warning", text);
 
   document.getElementById("result").innerHTML = dialog;
 }
@@ -136,6 +175,7 @@ function showNumberBelow(){
    * HINT: Use the 'warning' and text parameters 
    */
   // *CODE GOES BELOW HERE *
+  dialog = getDialog("warning", text);
 
   document.getElementById("result").innerHTML = dialog;
 }
