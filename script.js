@@ -69,6 +69,7 @@ function initGame(){
   guesses = [];
   correctNumber = getRandomNumber();
   resetResultContent();
+  resetHistoryContent();
   
 }
 
@@ -77,6 +78,13 @@ function initGame(){
  */
 function resetResultContent(){
   document.getElementById("result").innerHTML = "";
+  
+}
+
+/**
+ * Reset the HTML content for display history
+ */
+function resetHistoryContent() {
   document.getElementById("history").innerHTML = "";
 }
 
